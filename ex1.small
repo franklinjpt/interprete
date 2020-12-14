@@ -1,0 +1,3 @@
+if(edad==18){ 
+   VAR mayor = false;
+}
