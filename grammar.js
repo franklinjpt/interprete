@@ -14,6 +14,8 @@ function id(x) { return x[0]; }
       rparen:  ')',
       lbrace:  '{',
       rbrace:  '}',
+      lcorch:  '[',
+      rcorch:  ']',
       comparaciones: [">", "<", ">=", "<=", "==","!="],
       operador: ["+","-","*","/","x","÷"],
       PalabrasReservadas: ['VAR','Decimal','Palabra','Letra'],
@@ -24,6 +26,7 @@ function id(x) { return x[0]; }
       fatarrow: "=>",
       assign: "=",
       endline: ";",
+      coma: ",",
       NL: {match: /[\r\n]+/, lineBreaks: true},
     }); 
 var grammar = {
@@ -68,8 +71,17 @@ var grammar = {
     {"name": "expresion_unaria", "symbols": [(lexer.has("string") ? {type: "string"} : string)], "postprocess": id},
     {"name": "expresion_unaria", "symbols": [(lexer.has("boolean") ? {type: "boolean"} : boolean)], "postprocess": id},
     {"name": "expresion_unaria", "symbols": [(lexer.has("myNull") ? {type: "myNull"} : myNull)], "postprocess": id},
-    {"name": "expresion_binaria", "symbols": ["expresion_unaria", "_", (lexer.has("operador") ? {type: "operador"} : operador), "_", "expr"]},
-    {"name": "var_assign", "symbols": [{"literal":"VAR"}, "__", (lexer.has("identifier") ? {type: "identifier"} : identifier), "_", {"literal":"="}, "_", "expr", "_", {"literal":";"}], "postprocess":  
+    {"name": "expresion_unaria", "symbols": ["array"], "postprocess": id},
+    {"name": "ecuacion", "symbols": ["value"], "postprocess": id},
+    {"name": "ecuacion", "symbols": ["expresion_binaria"], "postprocess": id},
+    {"name": "value", "symbols": [(lexer.has("number") ? {type: "number"} : number)], "postprocess": id},
+    {"name": "value", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)], "postprocess": id},
+    {"name": "expresion_binaria", "symbols": ["value", "_", (lexer.has("operador") ? {type: "operador"} : operador), "_", "ecuacion"]},
+    {"name": "array", "symbols": [{"literal":"["}, "_", "array_items", "_", {"literal":"]"}]},
+    {"name": "array", "symbols": [{"literal":"["}, "_", {"literal":"]"}]},
+    {"name": "array_items", "symbols": ["expresion_unaria"]},
+    {"name": "array_items", "symbols": ["expresion_unaria", "_", {"literal":","}, "_", "array_items"]},
+    {"name": "var_assign", "symbols": [{"literal":"var"}, "__", (lexer.has("identifier") ? {type: "identifier"} : identifier), "_", {"literal":"="}, "_", "expr", "_", {"literal":";"}], "postprocess":  
         (d) => {
             return {
                         type: "var_assign",

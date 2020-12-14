@@ -10,6 +10,8 @@
       rparen:  ')',
       lbrace:  '{',
       rbrace:  '}',
+      lcorch:  '[',
+      rcorch:  ']',
       comparaciones: [">", "<", ">=", "<=", "==","!="],
       operador: ["+","-","*","/","x","÷"],
       PalabrasReservadas: ['VAR','Decimal','Palabra','Letra'],
@@ -20,6 +22,7 @@
       fatarrow: "=>",
       assign: "=",
       endline: ";",
+      coma: ",",
       NL: {match: /[\r\n]+/, lineBreaks: true},
     }); 
 %}
@@ -84,14 +87,30 @@ expresion_unaria
     | %string {% id %}
     | %boolean {% id %}
     | %myNull {% id %}
+    | array {% id %}
+    
+ecuacion
+    -> value {% id %}
+    | expresion_binaria {% id %}
+
+value
+    -> %number {% id %}
+    | %identifier {% id %}
 
 expresion_binaria
-    -> expresion_unaria _ %operador _ expr 
+    -> value _ %operador _ ecuacion 
+
+array
+    -> "[" _ array_items _ "]" 
+    | "[" _ "]" 
 
 
+array_items
+    -> expresion_unaria 
+    | expresion_unaria _ "," _ array_items
 
 var_assign 
-    -> "VAR" __ %identifier _ "=" _ expr _ ";"
+    -> "var" __ %identifier _ "=" _ expr _ ";"
     {% 
     (d) => {
         return {
