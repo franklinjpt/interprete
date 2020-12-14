@@ -39,7 +39,23 @@ var grammar = {
                 },
     {"name": "statement", "symbols": ["var_assign"], "postprocess": id},
     {"name": "statement", "symbols": ["print"], "postprocess": id},
-    {"name": "var_assign", "symbols": ["_", {"literal":"VAR"}, "__", (lexer.has("identifier") ? {type: "identifier"} : identifier), "_", {"literal":"="}, "_", "expr", "_", {"literal":";"}], "postprocess":  
+    {"name": "statement", "symbols": ["condicional"], "postprocess": id},
+    {"name": "condicional", "symbols": [(lexer.has("keyword") ? {type: "keyword"} : keyword), "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", "statements", "_", {"literal":"}"}], "postprocess":  
+        (d) => {
+            return {
+                    type: "condicional",
+                    tipo_keyword: d[0],
+                    condicion:d[4],
+                    instrucciones:d[13]
+                }
+            }
+        },
+    {"name": "comparacion$subexpression$1", "symbols": [(lexer.has("number") ? {type: "number"} : number)]},
+    {"name": "comparacion$subexpression$1", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)]},
+    {"name": "comparacion$subexpression$2", "symbols": [(lexer.has("number") ? {type: "number"} : number)]},
+    {"name": "comparacion$subexpression$2", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)]},
+    {"name": "comparacion", "symbols": ["comparacion$subexpression$1", (lexer.has("comparaciones") ? {type: "comparaciones"} : comparaciones), "comparacion$subexpression$2"]},
+    {"name": "var_assign", "symbols": [{"literal":"VAR"}, "__", (lexer.has("identifier") ? {type: "identifier"} : identifier), "_", {"literal":"="}, "_", "expr", "_", {"literal":";"}], "postprocess":  
         (d) => {
             return {
                         type: "var_assign",
@@ -49,7 +65,14 @@ var grammar = {
                     }
                 }
         },
-    {"name": "print", "symbols": ["_", {"literal":"print"}, {"literal":"("}, "_", "expr", "_", {"literal":")"}, "_", (lexer.has("endline") ? {type: "endline"} : endline)]},
+    {"name": "print", "symbols": [{"literal":"print"}, {"literal":"("}, "_", "expresiones_asignacion", "_", {"literal":")"}, "_", (lexer.has("endline") ? {type: "endline"} : endline)], "postprocess":  
+        (d) => {
+            return {
+                        type: "print",
+                        value:d[3]
+                    }
+                }
+        },
     {"name": "expresiones_asignacion", "symbols": [(lexer.has("string") ? {type: "string"} : string)], "postprocess": id},
     {"name": "expresiones_asignacion", "symbols": [(lexer.has("number") ? {type: "number"} : number)], "postprocess": id},
     {"name": "expresiones_asignacion", "symbols": [(lexer.has("boolean") ? {type: "boolean"} : boolean)], "postprocess": id},

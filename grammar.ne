@@ -42,21 +42,30 @@ statements
 statement
     -> var_assign {% id %}
     | print {% id %}
- #   | condicional {% id %}
+    | condicional {% id %}
     
     #| function_call {% id %}
 
-#condicional
- #   -> %keyword _ "(" _ comparacion _ ")" _ n _ "{" _ n _ statements  _ n _ "}"
-
+condicional
+   -> %keyword _ "(" _ comparacion _ ")"  _  "{"  _ statements  _  "}"
+        {% 
+        (d) => {
+            return {
+                    type: "condicional",
+                    tipo_keyword: d[0],
+                    condicion:d[4],
+                    instrucciones:d[13]
+                }
+            }
+        %}
 #instrucciones
  #   -> instrucciones var_assign
   #  |  instrucciones  print
    # | var_assign {%id%}
     #| print {%id%} 
 
-#comparacion
- #   -> (%number | %identifier ) %comparaciones (%number | %identifier)
+comparacion
+    -> (%number | %identifier ) %comparaciones (%number | %identifier)
 
 #function_call 
  #   -> %identifier _ "(" _ (arguments _):? ")"
@@ -85,7 +94,7 @@ statement
         #%}
 
 var_assign 
-    -> _ "VAR" __ %identifier _ "=" _ expr _ ";"
+    -> "VAR" __ %identifier _ "=" _ expr _ ";"
     {% 
     (d) => {
         return {
@@ -98,7 +107,15 @@ var_assign
     %}
 
 print
-    -> _ "print" "(" _ expr _ ")" _ %endline 
+    -> "print" "(" _ expresiones_asignacion _ ")" _ %endline 
+    {% 
+    (d) => {
+        return {
+                    type: "print",
+                    value:d[3]
+                }
+            }
+    %}
 
 
 expresiones_asignacion

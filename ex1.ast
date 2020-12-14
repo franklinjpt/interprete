@@ -1,61 +1,47 @@
 [
- [
-  [
-   []
-  ],
-  {
-   "type": "identifier",
-   "value": "print",
-   "text": "print",
+ {
+  "type": "condicional",
+  "tipo_keyword": {
+   "type": "keyword",
+   "value": "if",
+   "text": "if",
    "offset": 0,
    "lineBreaks": 0,
    "line": 1,
    "col": 1
   },
-  {
-   "type": "lparen",
-   "value": "(",
-   "text": "(",
-   "offset": 5,
-   "lineBreaks": 0,
-   "line": 1,
-   "col": 6
-  },
-  [
-   []
-  ],
-  {
-   "type": "string",
-   "value": "\"hola mundo\"",
-   "text": "\"hola mundo\"",
-   "offset": 6,
-   "lineBreaks": 0,
-   "line": 1,
-   "col": 7
-  },
-  [
-   []
-  ],
-  {
-   "type": "rparen",
-   "value": ")",
-   "text": ")",
-   "offset": 18,
-   "lineBreaks": 0,
-   "line": 1,
-   "col": 19
-  },
-  [
-   []
-  ],
-  {
-   "type": "endline",
-   "value": ";",
-   "text": ";",
-   "offset": 19,
-   "lineBreaks": 0,
-   "line": 1,
-   "col": 20
-  }
- ]
+  "condicion": [
+   [
+    {
+     "type": "identifier",
+     "value": "edad",
+     "text": "edad",
+     "offset": 3,
+     "lineBreaks": 0,
+     "line": 1,
+     "col": 4
+    }
+   ],
+   {
+    "type": "comparaciones",
+    "value": "<",
+    "text": "<",
+    "offset": 7,
+    "lineBreaks": 0,
+    "line": 1,
+    "col": 8
+   },
+   [
+    {
+     "type": "number",
+     "value": "18",
+     "text": "18",
+     "offset": 8,
+     "lineBreaks": 0,
+     "line": 1,
+     "col": 9
+    }
+   ]
+  ]
+ }
 ]
