@@ -32,45 +32,14 @@ var grammar = {
             return [d[0]];
         }
                 },
-    {"name": "statements", "symbols": ["statements", (lexer.has("newline") ? {type: "newline"} : newline), "statement"], "postprocess": 
+    {"name": "statements", "symbols": ["statements", "_", "n", "statement"], "postprocess": 
         (d) => {
             return [...d[0], d[2] ]
         }
                 },
     {"name": "statement", "symbols": ["var_assign"], "postprocess": id},
-    {"name": "statement", "symbols": ["condicional"], "postprocess": id},
     {"name": "statement", "symbols": ["print"], "postprocess": id},
-    {"name": "condicional$subexpression$1", "symbols": ["var_assign"]},
-    {"name": "condicional$subexpression$1", "symbols": ["print"]},
-    {"name": "condicional", "symbols": [(lexer.has("keyword") ? {type: "keyword"} : keyword), "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", "n", "_", {"literal":"{"}, "_", "n", "_", "condicional$subexpression$1", "_", "n", "_", {"literal":"}"}]},
-    {"name": "comparacion$subexpression$1", "symbols": [(lexer.has("number") ? {type: "number"} : number)]},
-    {"name": "comparacion$subexpression$1", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)]},
-    {"name": "comparacion$subexpression$2", "symbols": [(lexer.has("number") ? {type: "number"} : number)]},
-    {"name": "comparacion$subexpression$2", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)]},
-    {"name": "comparacion", "symbols": ["comparacion$subexpression$1", (lexer.has("comparaciones") ? {type: "comparaciones"} : comparaciones), "comparacion$subexpression$2"]},
-    {"name": "function_call$ebnf$1$subexpression$1", "symbols": ["arguments", "_"]},
-    {"name": "function_call$ebnf$1", "symbols": ["function_call$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "function_call$ebnf$1", "symbols": [], "postprocess": function(d) {return null;}},
-    {"name": "function_call", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier), "_", {"literal":"("}, "_", "function_call$ebnf$1", {"literal":")"}], "postprocess": 
-        (d) => {
-            return {
-                type: "function_call",
-                function_name: d[0],
-                arguments: d[4] ? d[4][0] : []
-            }
-        }
-                },
-    {"name": "arguments", "symbols": ["expr"], "postprocess": 
-        (d) => {
-            return [d[0]];
-        }
-                },
-    {"name": "arguments", "symbols": ["arguments", "__", "expr"], "postprocess": 
-        (d) => {
-            return [...d[0], d[2] ]
-        }
-                },
-    {"name": "var_assign", "symbols": [(lexer.has("PalabrasReservadas") ? {type: "PalabrasReservadas"} : PalabrasReservadas), "__", (lexer.has("identifier") ? {type: "identifier"} : identifier), "_", (lexer.has("assign") ? {type: "assign"} : assign), "_", "expresiones_asignacion", "_", (lexer.has("endline") ? {type: "endline"} : endline)], "postprocess":  
+    {"name": "var_assign", "symbols": ["_", {"literal":"VAR"}, "__", (lexer.has("identifier") ? {type: "identifier"} : identifier), "_", {"literal":"="}, "_", "expr", "_", {"literal":";"}], "postprocess":  
         (d) => {
             return {
                         type: "var_assign",
@@ -80,7 +49,7 @@ var grammar = {
                     }
                 }
         },
-    {"name": "print", "symbols": [{"literal":"print"}, {"literal":"("}, "_", "expr", "_", {"literal":")"}, "_", (lexer.has("endline") ? {type: "endline"} : endline)]},
+    {"name": "print", "symbols": ["_", {"literal":"print"}, {"literal":"("}, "_", "expr", "_", {"literal":")"}, "_", (lexer.has("endline") ? {type: "endline"} : endline)]},
     {"name": "expresiones_asignacion", "symbols": [(lexer.has("string") ? {type: "string"} : string)], "postprocess": id},
     {"name": "expresiones_asignacion", "symbols": [(lexer.has("number") ? {type: "number"} : number)], "postprocess": id},
     {"name": "expresiones_asignacion", "symbols": [(lexer.has("boolean") ? {type: "boolean"} : boolean)], "postprocess": id},

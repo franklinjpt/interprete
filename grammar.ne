@@ -31,7 +31,7 @@ statements
                 return [d[0]];
             }
         %}
-    | statements %newline statement
+    | statements _ n statement
         {%
             (d) => {
                 return [...d[0], d[2] ]
@@ -41,45 +41,51 @@ statements
 
 statement
     -> var_assign {% id %}
-    | condicional {% id %}
     | print {% id %}
+ #   | condicional {% id %}
+    
     #| function_call {% id %}
 
-condicional
-    -> %keyword _ "(" _ comparacion _ ")" _ n _ "{" _ n _ (var_assign | print ) _ n _ "}"
+#condicional
+ #   -> %keyword _ "(" _ comparacion _ ")" _ n _ "{" _ n _ statements  _ n _ "}"
 
+#instrucciones
+ #   -> instrucciones var_assign
+  #  |  instrucciones  print
+   # | var_assign {%id%}
+    #| print {%id%} 
 
-comparacion
-    -> (%number | %identifier ) %comparaciones (%number | %identifier)
+#comparacion
+ #   -> (%number | %identifier ) %comparaciones (%number | %identifier)
 
-function_call 
-    -> %identifier _ "(" _ (arguments _):? ")"
-        {%
-            (d) => {
-                return {
-                    type: "function_call",
-                    function_name: d[0],
-                    arguments: d[4] ? d[4][0] : []
-                }
-            }
-        %} 
+#function_call 
+ #   -> %identifier _ "(" _ (arguments _):? ")"
+  #      {%
+    #        (d) => {
+     #           return {
+  #                  type: "function_call",
+     #               function_name: d[0],
+      #              arguments: d[4] ? d[4][0] : []
+      #          }
+     #       }
+    #    %} 
 
-arguments
-    -> expr
-        {%
-            (d) => {
-                return [d[0]];
-            }
-        %}
-    | arguments __ expr
-        {%
-            (d) => {
-                return [...d[0], d[2] ]
-            }
-        %}
+#arguments
+ #   -> expr
+  #      {%
+   #         (d) => {
+    #            return [d[0]];
+     #       }
+      #  %}
+    #| arguments __ expr
+     #   {%
+      #      (d) => {
+       #         return [...d[0], d[2] ]
+        #    }
+        #%}
 
 var_assign 
-    -> %PalabrasReservadas __ %identifier _ %assign _ expresiones_asignacion _ %endline
+    -> _ "VAR" __ %identifier _ "=" _ expr _ ";"
     {% 
     (d) => {
         return {
@@ -92,7 +98,7 @@ var_assign
     %}
 
 print
-    -> "print" "(" _ expr _ ")" _ %endline 
+    -> _ "print" "(" _ expr _ ")" _ %endline 
 
 
 expresiones_asignacion

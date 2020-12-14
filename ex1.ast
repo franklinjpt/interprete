@@ -1,62 +1,38 @@
 [
  [
+  [
+   []
+  ],
   {
-   "type": "keyword",
-   "value": "if",
-   "text": "if",
+   "type": "identifier",
+   "value": "print",
+   "text": "print",
    "offset": 0,
    "lineBreaks": 0,
    "line": 1,
    "col": 1
   },
-  [
-   []
-  ],
   {
    "type": "lparen",
    "value": "(",
    "text": "(",
-   "offset": 2,
+   "offset": 5,
    "lineBreaks": 0,
    "line": 1,
-   "col": 3
+   "col": 6
   },
   [
    []
   ],
-  [
-   [
-    {
-     "type": "identifier",
-     "value": "edad",
-     "text": "edad",
-     "offset": 3,
-     "lineBreaks": 0,
-     "line": 1,
-     "col": 4
-    }
-   ],
-   {
-    "type": "comparaciones",
-    "value": "==",
-    "text": "==",
-    "offset": 7,
-    "lineBreaks": 0,
-    "line": 1,
-    "col": 8
-   },
-   [
-    {
-     "type": "number",
-     "value": "18",
-     "text": "18",
-     "offset": 9,
-     "lineBreaks": 0,
-     "line": 1,
-     "col": 10
-    }
-   ]
-  ],
+  {
+   "type": "string",
+   "value": "\"hola mundo\"",
+   "text": "\"hola mundo\"",
+   "offset": 6,
+   "lineBreaks": 0,
+   "line": 1,
+   "col": 7
+  },
   [
    []
   ],
@@ -64,127 +40,22 @@
    "type": "rparen",
    "value": ")",
    "text": ")",
-   "offset": 11,
+   "offset": 18,
    "lineBreaks": 0,
    "line": 1,
-   "col": 12
+   "col": 19
   },
   [
    []
   ],
-  [
-   []
-  ],
-  [
-   []
-  ],
   {
-   "type": "lbrace",
-   "value": "{",
-   "text": "{",
-   "offset": 12,
+   "type": "endline",
+   "value": ";",
+   "text": ";",
+   "offset": 19,
    "lineBreaks": 0,
    "line": 1,
-   "col": 13
-  },
-  [
-   [
-    {
-     "type": "WS",
-     "value": " ",
-     "text": " ",
-     "offset": 13,
-     "lineBreaks": 0,
-     "line": 1,
-     "col": 14
-    }
-   ]
-  ],
-  [
-   [
-    {
-     "type": "NL",
-     "value": "\r\n",
-     "text": "\r\n",
-     "offset": 14,
-     "lineBreaks": 1,
-     "line": 1,
-     "col": 15
-    }
-   ]
-  ],
-  [
-   [
-    {
-     "type": "WS",
-     "value": "   ",
-     "text": "   ",
-     "offset": 16,
-     "lineBreaks": 0,
-     "line": 2,
-     "col": 1
-    }
-   ]
-  ],
-  [
-   {
-    "type": "var_assign",
-    "tipo_palabra": {
-     "type": "PalabrasReservadas",
-     "value": "VAR",
-     "text": "VAR",
-     "offset": 19,
-     "lineBreaks": 0,
-     "line": 2,
-     "col": 4
-    },
-    "var_name": {
-     "type": "identifier",
-     "value": "mayor",
-     "text": "mayor",
-     "offset": 23,
-     "lineBreaks": 0,
-     "line": 2,
-     "col": 8
-    },
-    "value": {
-     "type": "boolean",
-     "value": "false",
-     "text": "false",
-     "offset": 31,
-     "lineBreaks": 0,
-     "line": 2,
-     "col": 16
-    }
-   }
-  ],
-  [
-   []
-  ],
-  [
-   [
-    {
-     "type": "NL",
-     "value": "\r\n",
-     "text": "\r\n",
-     "offset": 37,
-     "lineBreaks": 1,
-     "line": 2,
-     "col": 22
-    }
-   ]
-  ],
-  [
-   []
-  ],
-  {
-   "type": "rbrace",
-   "value": "}",
-   "text": "}",
-   "offset": 39,
-   "lineBreaks": 0,
-   "line": 3,
-   "col": 1
+   "col": 20
   }
  ]
 ]
