@@ -1,7 +1,0 @@
-while(n>10){
-    print("H");
-}
-if(edad<18){
-    print("Hola");
-    VAR nombre = "franklin";
-}

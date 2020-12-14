@@ -11,9 +11,11 @@
       lbrace:  '{',
       rbrace:  '}',
       comparaciones: [">", "<", ">=", "<=", "==","!="],
+      operador: ["+","-","*","/","x","÷"],
       PalabrasReservadas: ['VAR','Decimal','Palabra','Letra'],
       keyword: ['if', 'else', 'else if'],
       boolean: ['true','false'],
+      myNull: ['null'],
       identifier: /[a-zA-Z][a-zA-Z_0-9]*/,
       fatarrow: "=>",
       assign: "=",
@@ -44,7 +46,12 @@ statement
     | print {% id %}
     | condicional_si {% id %}
     | while_loop {% id %}
-    
+    | do_while {% id %}
+
+
+expr 
+    -> expresion_unaria {% id %}
+    | expresion_binaria {% id %}   
     #| function_call {% id %}
 
 condicional_si
@@ -64,34 +71,24 @@ condicional_si
 while_loop
     -> "while" _ "(" _ comparacion _ ")" _ "{" _ %NL statements  %NL _  "}"
 
+do_while
+    -> "do" _ "{" _ %NL statements  %NL _  "}" "while" _ "(" _ comparacion _ ")"
+
 comparacion
-    -> (%number | %identifier ) %comparaciones (%number | %identifier | %boolean)
+    -> (%number | %identifier ) _ %comparaciones _ (expresion_unaria)
 
-#function_call 
- #   -> %identifier _ "(" _ (arguments _):? ")"
-  #      {%
-    #        (d) => {
-     #           return {
-  #                  type: "function_call",
-     #               function_name: d[0],
-      #              arguments: d[4] ? d[4][0] : []
-      #          }
-     #       }
-    #    %} 
 
-#arguments
- #   -> expr
-  #      {%
-   #         (d) => {
-    #            return [d[0]];
-     #       }
-      #  %}
-    #| arguments __ expr
-     #   {%
-      #      (d) => {
-       #         return [...d[0], d[2] ]
-        #    }
-        #%}
+expresion_unaria
+    -> %number {% id %}
+    | %identifier {% id %}
+    | %string {% id %}
+    | %boolean {% id %}
+    | %myNull {% id %}
+
+expresion_binaria
+    -> expresion_unaria _ %operador _ expr 
+
+
 
 var_assign 
     -> "VAR" __ %identifier _ "=" _ expr _ ";"
@@ -107,7 +104,7 @@ var_assign
     %}
 
 print
-    -> "print" "(" _ expresiones_asignacion _ ")" _ %endline 
+    -> "print" "(" _ expr _ ")" _ %endline 
     {% 
     (d) => {
         return {
@@ -116,17 +113,6 @@ print
                 }
             }
     %}
-
-
-expresiones_asignacion
-    -> %string {% id %}
-    | %number {% id %}
-    | %boolean {% id %}
-
-expr 
-    -> %string {% id %}
-    | %number {% id %}
-    | %identifier {% id %}
 
 _ -> %WS:*
 n -> %NL:*
