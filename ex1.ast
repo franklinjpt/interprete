@@ -1,47 +1,27 @@
 [
  {
-  "type": "condicional",
-  "tipo_keyword": {
-   "type": "keyword",
-   "value": "if",
-   "text": "if",
-   "offset": 0,
+  "type": "print",
+  "value": {
+   "type": "string",
+   "value": "\"hola\"",
+   "text": "\"hola\"",
+   "offset": 6,
    "lineBreaks": 0,
    "line": 1,
-   "col": 1
-  },
-  "condicion": [
-   [
-    {
-     "type": "identifier",
-     "value": "edad",
-     "text": "edad",
-     "offset": 3,
-     "lineBreaks": 0,
-     "line": 1,
-     "col": 4
-    }
-   ],
+   "col": 7
+  }
+ },
+ [
+  [
    {
-    "type": "comparaciones",
-    "value": "<",
-    "text": "<",
-    "offset": 7,
-    "lineBreaks": 0,
+    "type": "NL",
+    "value": "\r\n",
+    "text": "\r\n",
+    "offset": 14,
+    "lineBreaks": 1,
     "line": 1,
-    "col": 8
-   },
-   [
-    {
-     "type": "number",
-     "value": "18",
-     "text": "18",
-     "offset": 8,
-     "lineBreaks": 0,
-     "line": 1,
-     "col": 9
-    }
-   ]
+    "col": 15
+   }
   ]
- }
+ ]
 ]

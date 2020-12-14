@@ -1,1 +1,2 @@
-if(edad<18){ print("hola mundo"); if(mayor>18){ print("sirve"); } }
+print("hola");
+VAR nombre = "franklin";

@@ -42,12 +42,12 @@ statements
 statement
     -> var_assign {% id %}
     | print {% id %}
-    | condicional {% id %}
+    | condicional_si {% id %}
     
     #| function_call {% id %}
 
-condicional
-   -> %keyword _ "(" _ comparacion _ ")"  _  "{"  _ statements  _  "}"
+condicional_si
+   -> "if" _ "(" _ comparacion _ ")"  _  "{"  _ statements  _  "}"
         {% 
         (d) => {
             return {
@@ -58,6 +58,8 @@ condicional
                 }
             }
         %}
+    | "if" _ "(" _ comparacion _ ")"  _  "{"  _ statements  _  "}" "else" "{" _ statements _ "}"
+
 #instrucciones
  #   -> instrucciones var_assign
   #  |  instrucciones  print

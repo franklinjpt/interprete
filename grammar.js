@@ -39,8 +39,8 @@ var grammar = {
                 },
     {"name": "statement", "symbols": ["var_assign"], "postprocess": id},
     {"name": "statement", "symbols": ["print"], "postprocess": id},
-    {"name": "statement", "symbols": ["condicional"], "postprocess": id},
-    {"name": "condicional", "symbols": [(lexer.has("keyword") ? {type: "keyword"} : keyword), "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", "statements", "_", {"literal":"}"}], "postprocess":  
+    {"name": "statement", "symbols": ["condicional_si"], "postprocess": id},
+    {"name": "condicional_si", "symbols": [{"literal":"if"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", "statements", "_", {"literal":"}"}], "postprocess":  
         (d) => {
             return {
                     type: "condicional",
@@ -50,6 +50,7 @@ var grammar = {
                 }
             }
         },
+    {"name": "condicional_si", "symbols": [{"literal":"if"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", "statements", "_", {"literal":"}"}, {"literal":"else"}, {"literal":"{"}, "_", "statements", "_", {"literal":"}"}]},
     {"name": "comparacion$subexpression$1", "symbols": [(lexer.has("number") ? {type: "number"} : number)]},
     {"name": "comparacion$subexpression$1", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)]},
     {"name": "comparacion$subexpression$2", "symbols": [(lexer.has("number") ? {type: "number"} : number)]},
