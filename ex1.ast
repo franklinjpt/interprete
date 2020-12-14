@@ -1,5 +1,25 @@
 [
  [
+  {
+   "type": "identifier",
+   "value": "contador",
+   "text": "contador",
+   "offset": 0,
+   "lineBreaks": 0,
+   "line": 1,
+   "col": 1
+  },
+  {
+   "type": "incrementos_decrementos",
+   "value": "++",
+   "text": "++",
+   "offset": 8,
+   "lineBreaks": 0,
+   "line": 1,
+   "col": 9
+  }
+ ],
+ [
   []
  ]
 ]

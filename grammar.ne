@@ -12,6 +12,7 @@
       rbrace:  '}',
       lcorch:  '[',
       rcorch:  ']',
+      incrementos_decrementos: ["++", "--"],
       comparaciones: [">", "<", ">=", "<=", "==","!="],
       operador: ["+","-","*","/","x","÷"],
       PalabrasReservadas: ['VAR','Decimal','Palabra','Letra'],
@@ -45,11 +46,13 @@ statements
 
 
 statement
-    -> var_assign {% id %}
-    | print {% id %}
+    -> var_assign _ ";" {% id %}
+    | print _ ";" {% id %}
     | condicional_si {% id %}
     | while_loop {% id %}
     | do_while {% id %}
+    | for_loop {% id %}
+    | operadores_esp _ ";" {% id %}
 
 
 expr 
@@ -76,6 +79,9 @@ while_loop
 
 do_while
     -> "do" _ "{" _ %NL statements  %NL _  "}" "while" _ "(" _ comparacion _ ")"
+
+for_loop
+    -> "for" _ "(" _ var_assign _ ";" _ comparacion _ ";" _ operadores_esp _ ")" _ "{" _ %NL statements  %NL _  "}"
 
 comparacion
     -> (%number | %identifier ) _ %comparaciones _ (expresion_unaria)
@@ -109,8 +115,15 @@ array_items
     -> expresion_unaria 
     | expresion_unaria _ "," _ array_items
 
+
+operadores_esp
+    -> %identifier "++" 
+    | "++" %identifier 
+    | %identifier "--" 
+    | "--" %identifier
+
 var_assign 
-    -> "var" __ %identifier _ "=" _ expr _ ";"
+    -> "var" __ %identifier _ "=" _ expr
     {% 
     (d) => {
         return {
@@ -123,7 +136,7 @@ var_assign
     %}
 
 print
-    -> "print" "(" _ expr _ ")" _ %endline 
+    -> "print" "(" _ expr _ ")" 
     {% 
     (d) => {
         return {
