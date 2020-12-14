@@ -27,20 +27,21 @@ function id(x) { return x[0]; }
 var grammar = {
     Lexer: lexer,
     ParserRules: [
-    {"name": "statements", "symbols": ["statement"], "postprocess": 
+    {"name": "statements", "symbols": ["_", "statement", "_"], "postprocess": 
         (d) => {
             return [d[0]];
         }
                 },
-    {"name": "statements", "symbols": ["statements", "_", "n", "statement"], "postprocess": 
+    {"name": "statements", "symbols": ["_", "statement", "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements"], "postprocess": 
         (d) => {
-            return [...d[0], d[2] ]
+            return [d[1], ...d[4] ]
         }
                 },
     {"name": "statement", "symbols": ["var_assign"], "postprocess": id},
     {"name": "statement", "symbols": ["print"], "postprocess": id},
     {"name": "statement", "symbols": ["condicional_si"], "postprocess": id},
-    {"name": "condicional_si", "symbols": [{"literal":"if"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", "statements", "_", {"literal":"}"}], "postprocess":  
+    {"name": "statement", "symbols": ["while_loop"], "postprocess": id},
+    {"name": "condicional_si", "symbols": [{"literal":"if"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}], "postprocess":  
         (d) => {
             return {
                     type: "condicional",
@@ -50,11 +51,13 @@ var grammar = {
                 }
             }
         },
-    {"name": "condicional_si", "symbols": [{"literal":"if"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", "statements", "_", {"literal":"}"}, {"literal":"else"}, {"literal":"{"}, "_", "statements", "_", {"literal":"}"}]},
+    {"name": "condicional_si", "symbols": [{"literal":"if"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}, {"literal":"else"}, {"literal":"{"}, "_", "statements", "_", {"literal":"}"}]},
+    {"name": "while_loop", "symbols": [{"literal":"while"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}]},
     {"name": "comparacion$subexpression$1", "symbols": [(lexer.has("number") ? {type: "number"} : number)]},
     {"name": "comparacion$subexpression$1", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)]},
     {"name": "comparacion$subexpression$2", "symbols": [(lexer.has("number") ? {type: "number"} : number)]},
     {"name": "comparacion$subexpression$2", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)]},
+    {"name": "comparacion$subexpression$2", "symbols": [(lexer.has("boolean") ? {type: "boolean"} : boolean)]},
     {"name": "comparacion", "symbols": ["comparacion$subexpression$1", (lexer.has("comparaciones") ? {type: "comparaciones"} : comparaciones), "comparacion$subexpression$2"]},
     {"name": "var_assign", "symbols": [{"literal":"VAR"}, "__", (lexer.has("identifier") ? {type: "identifier"} : identifier), "_", {"literal":"="}, "_", "expr", "_", {"literal":";"}], "postprocess":  
         (d) => {

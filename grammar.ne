@@ -25,16 +25,16 @@
 @lexer lexer
 
 statements
-    -> statement
+    -> _ statement _
         {%
             (d) => {
                 return [d[0]];
             }
         %}
-    | statements _ n statement
+    | _ statement _ %NL statements
         {%
             (d) => {
-                return [...d[0], d[2] ]
+                return [d[1], ...d[4] ]
             }
         %}
 
@@ -43,11 +43,12 @@ statement
     -> var_assign {% id %}
     | print {% id %}
     | condicional_si {% id %}
+    | while_loop {% id %}
     
     #| function_call {% id %}
 
 condicional_si
-   -> "if" _ "(" _ comparacion _ ")"  _  "{"  _ statements  _  "}"
+   -> "if" _ "(" _ comparacion _ ")"  _  "{" _ %NL statements %NL _  "}"
         {% 
         (d) => {
             return {
@@ -58,16 +59,13 @@ condicional_si
                 }
             }
         %}
-    | "if" _ "(" _ comparacion _ ")"  _  "{"  _ statements  _  "}" "else" "{" _ statements _ "}"
+    | "if" _ "(" _ comparacion _ ")"  _  "{" _ %NL statements %NL _ "}" "else" "{" _ statements _ "}"
 
-#instrucciones
- #   -> instrucciones var_assign
-  #  |  instrucciones  print
-   # | var_assign {%id%}
-    #| print {%id%} 
+while_loop
+    -> "while" _ "(" _ comparacion _ ")" _ "{" _ %NL statements  %NL _  "}"
 
 comparacion
-    -> (%number | %identifier ) %comparaciones (%number | %identifier)
+    -> (%number | %identifier ) %comparaciones (%number | %identifier | %boolean)
 
 #function_call 
  #   -> %identifier _ "(" _ (arguments _):? ")"

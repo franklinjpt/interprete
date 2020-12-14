@@ -1,27 +1,136 @@
 [
- {
-  "type": "print",
-  "value": {
-   "type": "string",
-   "value": "\"hola\"",
-   "text": "\"hola\"",
-   "offset": 6,
+ [
+  {
+   "type": "identifier",
+   "value": "while",
+   "text": "while",
+   "offset": 0,
    "lineBreaks": 0,
    "line": 1,
-   "col": 7
-  }
- },
- [
+   "col": 1
+  },
   [
+   []
+  ],
+  {
+   "type": "lparen",
+   "value": "(",
+   "text": "(",
+   "offset": 5,
+   "lineBreaks": 0,
+   "line": 1,
+   "col": 6
+  },
+  [
+   []
+  ],
+  [
+   [
+    {
+     "type": "identifier",
+     "value": "n",
+     "text": "n",
+     "offset": 6,
+     "lineBreaks": 0,
+     "line": 1,
+     "col": 7
+    }
+   ],
    {
-    "type": "NL",
-    "value": "\r\n",
-    "text": "\r\n",
-    "offset": 14,
-    "lineBreaks": 1,
+    "type": "comparaciones",
+    "value": ">",
+    "text": ">",
+    "offset": 7,
+    "lineBreaks": 0,
     "line": 1,
-    "col": 15
-   }
-  ]
+    "col": 8
+   },
+   [
+    {
+     "type": "number",
+     "value": "10",
+     "text": "10",
+     "offset": 8,
+     "lineBreaks": 0,
+     "line": 1,
+     "col": 9
+    }
+   ]
+  ],
+  [
+   []
+  ],
+  {
+   "type": "rparen",
+   "value": ")",
+   "text": ")",
+   "offset": 10,
+   "lineBreaks": 0,
+   "line": 1,
+   "col": 11
+  },
+  [
+   []
+  ],
+  {
+   "type": "lbrace",
+   "value": "{",
+   "text": "{",
+   "offset": 11,
+   "lineBreaks": 0,
+   "line": 1,
+   "col": 12
+  },
+  [
+   []
+  ],
+  {
+   "type": "NL",
+   "value": "\r\n",
+   "text": "\r\n",
+   "offset": 12,
+   "lineBreaks": 1,
+   "line": 1,
+   "col": 13
+  },
+  [
+   [
+    [
+     {
+      "type": "WS",
+      "value": "    ",
+      "text": "    ",
+      "offset": 14,
+      "lineBreaks": 0,
+      "line": 2,
+      "col": 1
+     }
+    ]
+   ]
+  ],
+  {
+   "type": "NL",
+   "value": "\r\n",
+   "text": "\r\n",
+   "offset": 29,
+   "lineBreaks": 1,
+   "line": 2,
+   "col": 16
+  },
+  [
+   []
+  ],
+  {
+   "type": "rbrace",
+   "value": "}",
+   "text": "}",
+   "offset": 31,
+   "lineBreaks": 0,
+   "line": 3,
+   "col": 1
+  }
+ ],
+ [
+  []
  ]
 ]
