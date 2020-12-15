@@ -4,14 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "gen-parser": "nearleyc grammar.ne -o grammar.js"
+    "gen-parser": "nearleyc grammar.ne -o grammar.js",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack serve --mode development"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "moo": "^0.5.1",
-    "mz": "^2.7.0",
     "nearley": "^2.20.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.10",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.10.1",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }

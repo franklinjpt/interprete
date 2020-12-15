@@ -1,14 +1,16 @@
 const nearley = require("nearley");
-const grammar = require("./grammar.js");
-const fs = require("mz/fs");
+const grammar = require("./grammar/nearley/grammar.js");
+const fs = require("fs");
+
+alert("hola lau")
 
 async function main(){
-
     const filename = process.argv[2];
     if(!filename){
         console.log("Please provide a .small file");
         return;
     }
+    console.log(filename)
 
     const code = (await fs.readFile(filename)).toString();
     const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
