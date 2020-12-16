@@ -1343,7 +1343,7 @@ if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
 
 },{}],4:[function(require,module,exports){
  const nearley = require("nearley");
- const grammar = require("../grammar.js");
+ const grammar = require("./grammar.js");
  const formulario = document.querySelector('#formulario');
  const textArea = document.querySelector("textarea");
 

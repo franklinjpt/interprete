@@ -1,5 +1,5 @@
 const nearley = require("nearley");
-const grammar = require("../grammar.js");
+const grammar = require("./grammar.js");
 const formulario = document.querySelector('#formulario');
 const textArea = document.querySelector("textarea");
 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "gen-parser": "nearleyc grammar.ne -o grammar.js",
-    "build": "browserify /priv/index.js -o bundle.js",
+    "build": "browserify index.js -o bundle.js",
     "start": "npm run build"
   },
   "keywords": [],
