@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "gen-parser": "nearleyc grammar.ne -o grammar.js",
-    "start": "node nearley"
+    "start": "node grammar.js"
   },
   "keywords": [],
   "author": "",
