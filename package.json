@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "gen-parser": "nearleyc grammar.ne -o grammar.js",
-    "start": "node grammar.js"
+    "build": "browserify index.js -o bundle.js",
+    "start": "npm run build"
   },
   "keywords": [],
   "author": "",
