@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "gen-parser": "nearleyc grammar.ne -o grammar.js",
-    "start": "node /priv/index.js"
+    "start": "nearleyc grammar.ne -o grammar.js"
   },
   "keywords": [],
   "author": "",
