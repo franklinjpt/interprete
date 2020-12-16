@@ -14,7 +14,6 @@
   "license": "ISC",
   "dependencies": {
     "moo": "^0.5.1",
-    "nearley": "^2.20.1",
-    "uniqid": "^5.2.0"
+    "nearley": "^2.20.1"
   }
 }
