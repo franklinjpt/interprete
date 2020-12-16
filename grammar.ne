@@ -15,8 +15,8 @@
       incrementos_decrementos: ["++", "--"],
       comparaciones: [">", "<", ">=", "<=", "==","!="],
       operador: ["+","-","*","/","x","÷"],
-      PalabrasReservadas: ['VAR','Decimal','Palabra','Letra'],
-      keyword: ['if', 'else', 'else if'],
+      PalabrasReservadas: ['$', 'mientras', 'durante', 'haz'],
+      keyword: ['si', 'sino', 'sino si'],
       boolean: ['true','false'],
       myNull: ['null'],
       identifier: /[a-zA-Z][a-zA-Z_0-9]*/,
@@ -31,7 +31,7 @@
 @lexer lexer
 
 statements
-    -> _ statement _
+    -> _ statement n _
         {%
             (d) => {
                 return [d[1]];
@@ -61,7 +61,7 @@ expr
     #| function_call {% id %}
 
 condicional_si
-   -> "if" _ "(" _ comparacion _ ")"  _  "{" _ %NL statements %NL _  "}"
+   -> "si" _ "(" _ comparacion _ ")"  _  "{" _ %NL statements %NL _  "}"
         {% 
         (d) => {
             return {
@@ -72,7 +72,7 @@ condicional_si
                 }
             }
         %}
-    | "if" _ "(" _ comparacion _ ")"  _  "{" _ %NL statements %NL _ "}" "else" "{" _ statements _ "}"
+    | "si" _ "(" _ comparacion _ ")"  _  "{" _ %NL statements %NL _ "}" "sino" "{" _ statements _ "}"
      {% 
         (d) => {
             return {
@@ -87,7 +87,7 @@ condicional_si
         %}
 
 while_loop
-    -> "while" _ "(" _ comparacion _ ")" _ "{" _ %NL statements  %NL _  "}" {%
+    -> "mientras" _ "(" _ comparacion _ ")" _ "{" _ %NL statements  %NL _  "}" {%
         (d)=> { return{
             type: "while_loop",
             instrucciones: d[11],
@@ -97,7 +97,7 @@ while_loop
     %}
 
 do_while
-    -> "do" _ "{" _ %NL statements  %NL _  "}" "while" _ "(" _ comparacion _ ")" {%
+    -> "haz" _ "{" _ %NL statements  %NL _  "}" "mientras" _ "(" _ comparacion _ ")" {%
         (d)=> { return{
             type: "do_while",
             instrucciones: d[4],
@@ -107,7 +107,7 @@ do_while
     %}
 
 for_loop
-    -> "for" _ "(" _ var_assign _ ";" _ comparacion _ ";" _ operadores_esp _ ")" _ "{" _ %NL statements  %NL _  "}" {%
+    -> "durante" _ "(" _ var_assign _ ";" _ comparacion _ ";" _ operadores_esp _ ")" _ "{" _ %NL statements  %NL _  "}" {%
         (d)=> { return{
             type: "for_loop",
             condicion1: d[4],
@@ -119,7 +119,7 @@ for_loop
     %}
 
 comparacion
-    -> (%number | %identifier ) _ %comparaciones _ (expresion_unaria) {%
+    -> ( %number | %identifier ) _ %comparaciones _ expresion_unaria {%
         (d)=> { return{
             type: "comparacion",
             valor1: d[0],
@@ -172,12 +172,11 @@ operadores_esp
     | "--" %identifier
 
 var_assign 
-    -> "var" __ %identifier _ "=" _ expr
+    -> "$" __ %identifier _ "=" _ expr
     {% 
     (d) => {
         return {
                     type: "var_assign",
-                    tipo_palabra: d[0],
                     var_name:d[2],
                     value:d[6]
                 }

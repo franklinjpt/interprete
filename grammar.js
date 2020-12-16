@@ -19,8 +19,8 @@ function id(x) { return x[0]; }
       incrementos_decrementos: ["++", "--"],
       comparaciones: [">", "<", ">=", "<=", "==","!="],
       operador: ["+","-","*","/","x","÷"],
-      PalabrasReservadas: ['VAR','Decimal','Palabra','Letra'],
-      keyword: ['if', 'else', 'else if'],
+      PalabrasReservadas: ['$', 'mientras', 'durante', 'haz'],
+      keyword: ['si', 'sino', 'sino si'],
       boolean: ['true','false'],
       myNull: ['null'],
       identifier: /[a-zA-Z][a-zA-Z_0-9]*/,
@@ -33,7 +33,7 @@ function id(x) { return x[0]; }
 var grammar = {
     Lexer: lexer,
     ParserRules: [
-    {"name": "statements", "symbols": ["_", "statement", "_"], "postprocess": 
+    {"name": "statements", "symbols": ["_", "statement", "n", "_"], "postprocess": 
         (d) => {
             return [d[1]];
         }
@@ -52,7 +52,7 @@ var grammar = {
     {"name": "statement", "symbols": ["operadores_esp", "_", {"literal":";"}], "postprocess": id},
     {"name": "expr", "symbols": ["expresion_unaria"], "postprocess": id},
     {"name": "expr", "symbols": ["expresion_binaria"], "postprocess": id},
-    {"name": "condicional_si", "symbols": [{"literal":"if"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}], "postprocess":  
+    {"name": "condicional_si", "symbols": [{"literal":"si"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}], "postprocess":  
         (d) => {
             return {
                     type: "condicional_si",
@@ -62,7 +62,7 @@ var grammar = {
                 }
             }
         },
-    {"name": "condicional_si", "symbols": [{"literal":"if"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}, {"literal":"else"}, {"literal":"{"}, "_", "statements", "_", {"literal":"}"}], "postprocess":  
+    {"name": "condicional_si", "symbols": [{"literal":"si"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}, {"literal":"sino"}, {"literal":"{"}, "_", "statements", "_", {"literal":"}"}], "postprocess":  
         (d) => {
             return {
                     type: "condicional_sino",
@@ -74,7 +74,7 @@ var grammar = {
                 }
             }
         },
-    {"name": "while_loop", "symbols": [{"literal":"while"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}], "postprocess": 
+    {"name": "while_loop", "symbols": [{"literal":"mientras"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}], "postprocess": 
         (d)=> { return{
             type: "while_loop",
             instrucciones: d[11],
@@ -82,7 +82,7 @@ var grammar = {
             } 
         }
             },
-    {"name": "do_while", "symbols": [{"literal":"do"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}, {"literal":"while"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}], "postprocess": 
+    {"name": "do_while", "symbols": [{"literal":"haz"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}, {"literal":"mientras"}, "_", {"literal":"("}, "_", "comparacion", "_", {"literal":")"}], "postprocess": 
         (d)=> { return{
             type: "do_while",
             instrucciones: d[4],
@@ -90,7 +90,7 @@ var grammar = {
             } 
         }
             },
-    {"name": "for_loop", "symbols": [{"literal":"for"}, "_", {"literal":"("}, "_", "var_assign", "_", {"literal":";"}, "_", "comparacion", "_", {"literal":";"}, "_", "operadores_esp", "_", {"literal":")"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}], "postprocess": 
+    {"name": "for_loop", "symbols": [{"literal":"durante"}, "_", {"literal":"("}, "_", "var_assign", "_", {"literal":";"}, "_", "comparacion", "_", {"literal":";"}, "_", "operadores_esp", "_", {"literal":")"}, "_", {"literal":"{"}, "_", (lexer.has("NL") ? {type: "NL"} : NL), "statements", (lexer.has("NL") ? {type: "NL"} : NL), "_", {"literal":"}"}], "postprocess": 
         (d)=> { return{
             type: "for_loop",
             condicion1: d[4],
@@ -102,8 +102,7 @@ var grammar = {
             },
     {"name": "comparacion$subexpression$1", "symbols": [(lexer.has("number") ? {type: "number"} : number)]},
     {"name": "comparacion$subexpression$1", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)]},
-    {"name": "comparacion$subexpression$2", "symbols": ["expresion_unaria"]},
-    {"name": "comparacion", "symbols": ["comparacion$subexpression$1", "_", (lexer.has("comparaciones") ? {type: "comparaciones"} : comparaciones), "_", "comparacion$subexpression$2"], "postprocess": 
+    {"name": "comparacion", "symbols": ["comparacion$subexpression$1", "_", (lexer.has("comparaciones") ? {type: "comparaciones"} : comparaciones), "_", "expresion_unaria"], "postprocess": 
         (d)=> { return{
             type: "comparacion",
             valor1: d[0],
@@ -125,6 +124,7 @@ var grammar = {
             return {
                 type: "expresion_binaria",
                 valor1: d[0],
+                operador: d[2],
                 valor2: d[0]
             }
         } },
@@ -136,11 +136,10 @@ var grammar = {
     {"name": "operadores_esp", "symbols": [{"literal":"++"}, (lexer.has("identifier") ? {type: "identifier"} : identifier)]},
     {"name": "operadores_esp", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier), {"literal":"--"}]},
     {"name": "operadores_esp", "symbols": [{"literal":"--"}, (lexer.has("identifier") ? {type: "identifier"} : identifier)]},
-    {"name": "var_assign", "symbols": [{"literal":"var"}, "__", (lexer.has("identifier") ? {type: "identifier"} : identifier), "_", {"literal":"="}, "_", "expr"], "postprocess":  
+    {"name": "var_assign", "symbols": [{"literal":"$"}, "__", (lexer.has("identifier") ? {type: "identifier"} : identifier), "_", {"literal":"="}, "_", "expr"], "postprocess":  
         (d) => {
             return {
                         type: "var_assign",
-                        tipo_palabra: d[0],
                         var_name:d[2],
                         value:d[6]
                     }
