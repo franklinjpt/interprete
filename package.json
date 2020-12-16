@@ -4,10 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "gen-parser": "nearleyc grammar.ne -o grammar.js",
-    "build-js": "browserify priv/bundle.js",
-    "build": "npm run build-js",
-    "start": "npm run build"
+    "gen-parser": "nearleyc grammar.ne -o grammar.js"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +13,7 @@
     "moo": "^0.5.1",
     "nearley": "^2.20.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "browserify": "^17.0.0"
+  }
 }
