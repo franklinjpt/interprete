@@ -1360,7 +1360,6 @@ if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
 
     const codigo = textArea.value;
 
-    console.log(codigo);
     parser.feed(codigo);
       if(parser.results.length>1){
         Swal.fire({
@@ -1378,9 +1377,9 @@ if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Error: parser no encontrado'
+          text: 'Error: gramatica incorrecta'
         })
-        console.log("Error: parser no encontrado.");
+        
      }
 
   }
