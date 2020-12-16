@@ -2,6 +2,7 @@
   "name": "testCompi",
   "version": "1.0.0",
   "description": "",
+  "browser": "./browser.js",
   "scripts": {
     "gen-parser": "nearleyc grammar.ne -o grammar.js",
     "build": "browserify index.js -o bundle.js",
