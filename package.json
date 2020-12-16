@@ -4,10 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "gen-parser": "nearleyc grammar.ne -o grammar.js",
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production",
-    "start": "webpack serve --mode development"
+    "gen-parser": "nearleyc grammar.ne -o grammar.js"
   },
   "keywords": [],
   "author": "",
